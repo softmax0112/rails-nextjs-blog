@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :posts
+  has_one_attached :image
   validate :password_lower_case
   validate :password_uppercase
   validate :password_special_char

@@ -1,5 +1,11 @@
 class Post < ApplicationRecord
-  belongs_to :user as: :author
+  include Rails.application.routes.url_helpers
+
+  belongs_to :user
   has_one_attached :image
-  has_many :likes
+
+
+  def get_image_url
+    url_for(self.image)
+  end
 end

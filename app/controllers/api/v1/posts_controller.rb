@@ -4,7 +4,7 @@ class Api::V1::PostsController < ApplicationController
   def index
     @posts = Post.all
     if @posts
-      render json: { posts: PostsSerializer.new(@posts) }, status: :success
+      render json: { posts: PostsSerializer.new(@posts) }, status: :ok
     else
       render json: { error: "Posts failed to load." }, status: :bad_request
     end
@@ -20,15 +20,16 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find_by_id(id: params[:id])
+    @post = Post.find_by_id(params[:id])
     if @post
       render json: { post: PostsSerializer.new(@post) }, status: :ok
     else
       render json: { error: "Post not found" }, status: :not_found
+    end
   end
 
   def update
-    @post = Post.find_by_id(id: params[:id])
+    @post = Post.find_by_id(params[:id])
     if @post.save
       render json: { post: PostsSerializer.new(@post) }, status: :accepted
     else
@@ -37,8 +38,8 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def destroy
-    Post.destroy(id: params[:id])
-    if Post.find_by_id(id: params[:id])
+    Post.destroy(params[:id])
+    if Post.find_by_id(params[:id])
       render json: { error: "Post deletion failed. Please try again." }, status: :failure
     else
       render json: { message: "Post successfully deleted." }, status: :ok

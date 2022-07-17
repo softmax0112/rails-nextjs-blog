@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   before_action :authorized
-  
+
   def encode_token(payload)
     JWT.encode(payload, ENV['SECRET'])
   end
@@ -35,4 +35,5 @@ class ApplicationController < ActionController::API
     unless logged_in?
       render json: { message: "Please Log In" }, status: :unauthorized
     end
+  end
 end
